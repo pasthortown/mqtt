@@ -1,0 +1,4 @@
+docker run --name mqqt1 -it -d -v D:\Proyectos\mqqt\one:/proyectos -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin ubuntu:latest
+docker run --name mqqt2 -it -d -v D:\Proyectos\mqqt\two:/proyectos -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin ubuntu:latest
+
+docker run --name qtt_server -it -p 1883:1883 -p 9001:9001 -v mosquitto.conf:/mosquitto/config/mosquitto.conf eclipse-mosquitto

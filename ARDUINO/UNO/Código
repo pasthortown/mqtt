@@ -1,0 +1,131 @@
+#include <SoftwareSerial.h>
+#include <usbhid.h>
+#include <usbhub.h>
+#include <hiduniversal.h>
+#include <hidboot.h>
+#include <SPI.h>
+
+SoftwareSerial WiFiModule(7, 9);
+const int relay_bomba = 6;
+const int relay_pistola = 5;
+const int factor = 1000;
+byte xaxa[256] , Mm , CONTA , QTDE;
+char simbolo;
+
+class MyParser : public HIDReportParser {
+  public:
+    MyParser();
+    void Parse(USBHID *hid, bool is_rpt_id, byte len, byte *buf);
+  protected:
+    virtual void OnScanFinished();
+};
+
+MyParser::MyParser() {}
+
+void MyParser::Parse(USBHID *hid, bool is_rpt_id, byte len, byte *buf) {
+  for (int xuxa = 0; xuxa <= 7; xuxa++) {
+    if (buf[xuxa] != 0) {
+      xaxa[CONTA] = buf[xuxa];
+      CONTA++;
+    }
+    if (buf[xuxa] == UHS_HID_BOOT_KEY_ENTER) {
+      QTDE=CONTA;
+      OnScanFinished();
+      CONTA=0;
+    }
+  }
+}
+
+void MyParser::OnScanFinished() {
+   Serial.print("QTDE: ");
+   Serial.println(QTDE);
+   for(int pula=0; pula<=QTDE; pula++){
+     if (xaxa[pula] < 16) {
+       Serial.print("0");
+     } 
+     Serial.print(xaxa[pula],HEX);
+     Serial.print(" ");
+     if (xaxa[pula] == 0x28) {
+       pula=QTDE+1;
+     }
+   }
+   Serial.println();
+   if (xaxa[0] == 0x02) {
+     Mm=1;
+   } else {
+     Mm=0;
+   }
+   for (int pula=0 ; pula <= QTDE ; pula++){ 
+     if (xaxa[pula] == 0x28) {
+       pula=QTDE;
+     } else {
+       if (xaxa[pula] >= 0x1E && xaxa[pula] < 0x28) {
+         if (xaxa[pula] == 0x27) {
+           simbolo = 0x30;
+         } else {
+           simbolo = xaxa[pula] + 0x13;
+         }
+       }
+       if (Mm==1 && xaxa[pula] >= 0x04 && xaxa[pula] < 0x1E) {
+         simbolo = xaxa[pula] + 0x3D;
+       }
+       if (Mm==0 && xaxa[pula] >= 0x04 && xaxa[pula] < 0x1E) {
+         simbolo = xaxa[pula] + 0x5D;
+       }
+       if (xaxa[pula] >= 0x04 && xaxa[pula] < 0x28) {
+         Serial.print(simbolo);
+         Serial.print(" ");
+       }
+     }
+     if (xaxa[pula] == 0x2D) {
+       Serial.print("-");
+       Serial.print(" ");
+     } // 0x2D = -
+   }
+   QTDE=0;
+   Serial.println();
+   Serial.println(" - Finished");
+   Serial.println();
+}
+
+USB Usb;
+USBHub Hub(&Usb);
+HIDUniversal Hid(&Usb);
+MyParser Parser;
+
+void setup() {
+  WiFiModule.begin(9600);
+  Serial.begin(9600);
+  pinMode(relay_bomba, OUTPUT);
+  pinMode(relay_pistola, OUTPUT);
+  Serial.println("Arduino Dispensador");
+  if (Usb.Init() == -1) {
+    Serial.println("Error al leer el HOST USB");
+  }
+  delay(200);
+  Hid.SetReportParser(0, &Parser);
+  CONTA=0;
+}
+
+void loop() {
+  leer_datos_wifi();
+  Usb.Task();
+}
+
+void encender_bomba(int cantidad) {
+  digitalWrite(relay_bomba, HIGH);
+  delay(factor * cantidad);
+  digitalWrite(relay_bomba, LOW);
+}
+
+void leer_datos_wifi() {
+  String wifiData = "";
+  if (WiFiModule.available()) {
+    wifiData = "";
+    while (WiFiModule.available() > 0) {
+      char digit = WiFiModule.read();
+      wifiData = wifiData + digit;
+    }
+    Serial.println(wifiData);
+  }
+}

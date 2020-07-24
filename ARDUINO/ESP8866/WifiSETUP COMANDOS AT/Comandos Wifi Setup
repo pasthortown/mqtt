@@ -1,0 +1,62 @@
+Ai-Thinker Technology Co. Ltd.
+
+ready
+AT
+
+
+OK
+AT+CIOBAUD=9600
+
+
+OK
+AT
+
+
+OK
+
+AT+GMR
+
+AT version:1.2.0.0(Jul  1 2016 20:04:45)
+SDK version:1.5.4.1(39cb9a32)
+Ai-Thinker Technology Co. Ltd.
+Dec  2 2016 14:21:16
+OK
+AT+CWMODE?
+
++CWMODE:2
+
+OK
+
+AT+CWMODE=1
+
+
+OK
+AT+CWLAP
+
++CWLAP:(0,"ubnt",-93,"68:72:51:30:4b:34",1,28,0)
++CWLAP:(4,"POLILLA",-87,"80:26:89:6d:38:2e",1,40,0)
++CWLAP:(0,"TP-Link_Extender",-92,"ac:84:c6:c8:08:15",2,25,0)
++CWLAP:(4,"NETLIFE PEREDES",-88,"60:f1:8a:94:0d:48",4,25,0)
++CWLAP:(3,"IPLANET_LUZCANDO EDMUNDO ",-82,"68:ff:7b:96:75:32",4,1,0)
++CWLAP:(4,"CNT-BL",-88,"78:58:60:7a:f6:84",5,33,0)
++CWLAP:(4,"NETLIFE-SALAZAR",-57,"c0:25:67:60:02:e8",6,100,0)
++CWLAP:(3,"DIRECT-PW-BRAVIA",-43,"a2:34:fc:d3:34:0a",6,32767,0)
++CWLAP:(4,"CELERITY_VERONICA",-95,"44:65:7f:2f:5f:df",1,0,0)
++CWLAP:(4,"NETLIFE-CUEVA",-92,"c8:1f:be:eb:ee:a8",7,41,0)
++CWLAP:(3,"NETLIFE-SALAZAR",-48,"f4:e5:f2:47:11:08",9,33,0)
++CWLAP:(4,"CNT-GB",-87,"78:58:60:7a:f5:34",11,30,0)
++CWLAP:(2,"Flores cnt",-75,"00:26:b6:81:f9:da",11,-11,0)
+
+OK
+AT+CWJAP="NETLIFE-SALAZAR","20152409"
+
+WIFI CONNECTED
+WIFI GOT IP
+
+OK
+AT+CIFSR
+
++CIFSR:STAIP,"192.168.1.46"
++CIFSR:STAMAC,"cc:50:e3:1d:ba:84"
+
+OK

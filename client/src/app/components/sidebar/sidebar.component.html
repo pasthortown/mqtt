@@ -1,0 +1,19 @@
+<div class="sidebar-header bg-darkGrayBlue fg-white" data-image="images/sb-bg-1.jpg">
+   <a class="fg-white sub-action"[routerLink]="['/login']" (click)="logOut()">
+      <span class="mif-settings-power mif-2x"></span>
+   </a>
+   <a class="avatar" [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']">
+      <img src="{{profileImg}}"/>
+   </a>
+   <span class="title">{{ user.name }}</span>
+   <span class="subtitle">{{ appName }}</span>
+</div>
+<ul class="sidebar-menu">
+   <li class="group-title">Opciones</li>
+   <li>
+      <a [routerLink]="['/main']" [routerLinkActive]="['router-link-active']">Solicitar Agua</a>
+   </li>
+   <li>
+      <a [routerLink]="['/wather_request']" [routerLinkActive]="['router-link-active']" *ngIf="user.id == 1">Administración</a>
+   </li>
+</ul>

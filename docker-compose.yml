@@ -1,0 +1,83 @@
+version: '3'
+
+networks:
+  agua:
+    ipam:
+      config:
+        - subnet: 172.35.0.0/24
+
+services:
+  qtt_server:
+    image: eclipse-mosquitto:latest
+    restart: always
+    ports:
+    - 1883:1883 
+    - 9001:9001
+    volumes:
+    - ./mosquitto/config:/mosquitto/config
+    - ./mosquitto/data:/mosquitto/data
+    networks:
+      agua:
+        ipv4_address: 172.35.0.10
+  web:
+    image: nginx:latest
+    restart: always
+    ports:
+    - 8085:80
+    volumes:
+    - ./public_html:/public_html
+    - ./nginx_conf:/etc/nginx/conf.d
+    networks:
+      agua:
+        ipv4_address: 172.35.0.11
+    links:
+    - php
+  php:
+    image: pasthortown/php:latest
+    restart: always
+    volumes:
+    - ./public_html:/public_html
+    networks:
+      agua:
+        ipv4_address: 172.35.0.12
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.composer/vendor/bin
+    links:
+    - postgres
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+    - "9595:5432"
+    networks:
+      agua:
+        ipv4_address: 172.35.0.20
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+  pgadmin:
+    image: dpage/pgadmin4:2020-05-22-github1
+    restart: always
+    ports:
+    - 9596:80
+    networks:
+      agua:
+        ipv4_address: 172.35.0.21
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+  supervisor:
+    image: pasthortown/despachador:latest
+    restart: always
+    networks:
+      agua:
+        ipv4_address: 172.35.0.22
+    extra_hosts:
+      - "ws-agua:172.35.0.11"
+    environment:
+      TZ: America/Bogota
+    volumes:
+    - ./supervisor_logs:/usr/src/app/log
+    links:
+    - web
+    - qtt_server

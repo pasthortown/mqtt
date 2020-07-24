@@ -1,0 +1,35 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial WiFiModule(7, 9); // RX | TX
+
+void setup() {
+  WiFiModule.begin(9600);
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.println("Arduino Dispensador Listo");
+}
+
+void loop() {
+  String serialData = "";
+  String wifiData = "";
+  if (WiFiModule.available()) {
+    wifiData = "";
+    while (WiFiModule.available() > 0) {
+      char digit = WiFiModule.read();
+      wifiData = wifiData + digit;
+    }
+    Serial.println(wifiData);
+  }
+
+  if (Serial.available()) {
+    if (Serial.available() != -1) {
+      serialData = "";
+      delay(100);
+    }
+    while (Serial.available() > 0) {
+      char digit = Serial.read();
+      serialData = serialData + digit;
+    }
+    WiFiModule.println(serialData);
+  }
+}
