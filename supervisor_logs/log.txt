@@ -94,3 +94,23 @@
 2020-07-22 20:11:31.452453 Conectado al servidor MQTT
 2020-07-23 09:46:18.004059 Conectado al servidor MQTT
 2020-07-23 20:46:16.211178 Conectado al servidor MQTT
+2020-07-24 11:31:43.715768 Conectado al servidor MQTT
+2020-07-24 14:33:38.975209 Conectado al servidor MQTT
+2020-07-24 16:08:57.507731 Conectado al servidor MQTT
+2020-07-24 17:44:22.831149 Conectado al servidor MQTT
+2020-07-24 20:05:21.273960 Conectado al servidor MQTT
+2020-07-25 11:36:08.974003 Conectado al servidor MQTT
+2020-07-25 18:10:31.352432 Conectado al servidor MQTT
+2020-07-26 12:04:28.716824 Conectado al servidor MQTT
+2020-07-26 13:13:06.591221 Conectado al servidor MQTT
+2020-07-26 18:27:38.285797 Conectado al servidor MQTT
+2020-07-26 21:08:19.746641 Conectado al servidor MQTT
+2020-07-27 10:02:55.464462 Conectado al servidor MQTT
+2020-07-27 10:36:44.824808 Recibido: 40400008
+2020-07-27 10:36:52.265570 Despachar:0
+2020-07-27 10:37:53.174134 Recibido: 40400008
+2020-07-27 10:37:53.654728 Despachar:542
+2020-07-27 10:45:28.623667 Recibido: 40400008
+2020-07-27 10:45:28.925976 Despachar:542
+2020-07-27 10:46:05.803159 Recibido: 40400008
+2020-07-27 10:46:06.127665 Despachar:0
